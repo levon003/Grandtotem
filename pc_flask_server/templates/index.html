@@ -1,0 +1,21 @@
+{% extends 'template.html' %}
+
+{% block title %}Index{% endblock %}
+
+{% block leftbar %}
+
+{% endblock %}
+
+{% block content %}
+<p>Test the server's functionality.</p>
+
+<form method="post">
+  <!-- Filter -->
+  <label for="query">Text content:</label>
+  <input name="query" id="query" value="{{ request.args.get('query','') }}">
+  <br>
+  <!-- Search Button -->
+  <input type="submit" value="Send POST">
+</form>
+
+{% endblock %}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<title>{% block title %}{% endblock %} - Grandtotem Flask Server</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
+<style>
+div.container {
+    width: 100%;
+    border: 1px solid gray;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+ul a {
+    text-decoration: none;
+}
+
+header {
+    padding: 1em;
+    color: #eee;
+    background-color: #2b2b2b;
+    clear: left;
+    text-align: center;
+}
+
+footer {
+    padding: 1em;
+    color: #eee;
+    background-color: #2b2b2b;
+    clear: both;
+    text-align: center;
+}
+
+leftbar {
+    float: left;
+    max-width: 240px;
+    margin: 0;
+    padding: 1em;
+}
+
+leftbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+leftbar ul a {
+    text-decoration: none;
+}
+
+nav {
+	float: right;
+    padding: 1em;
+    max-width: 140px;
+    margin: 0;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+   
+nav ul a {
+    text-decoration: none;
+}
+
+article {
+    margin-left: 170px;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    margin-right: 20px;
+    padding: 1em;
+    overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<header>
+  {% block header %}<h1>PC Flask Server</h1>{% endblock %}
+</header>
+  
+<leftbar>
+{% block leftbar %}{% endblock %}
+</leftbar>
+
+<nav>
+  <ul>
+      <li>Links could go here...</li>
+  </ul>
+</nav>
+
+<article>
+  {% block content %}{% endblock %}
+</article>
+
+<footer>Grandtotem PC Flask Server - Version {{ config.version }}</footer>
+
+</div>
+
+</body>
+
