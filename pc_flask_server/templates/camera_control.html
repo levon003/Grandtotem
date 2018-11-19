@@ -1,0 +1,67 @@
+{% extends 'template.html' %}
+
+{% block title %}Camera Control{% endblock %}
+
+{% block leftbar %}
+<p>Control the camera with the buttons in the central pane.</p>
+{% endblock %}
+
+{% block content %}
+<p>Wizard-of-Oz control for "automatic" detection of the camera's status.</p>
+
+<div>
+    <p>Camera status: <span id="camera_status_span">...</span></p>
+    <button id="activate_camera_button" onclick="activate_camera(this)">Activate Camera</button>
+    <button id="deactivate_camera_button" onclick="deactivate_camera(this)">Deactivate Camera</button>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+
+function activate_camera(button) {
+    console.log('activate_camera - Click Received');
+    var status = document.getElementById("camera_status_span");
+    status.innerHTML = "Requesting camera activation...";
+    button.disabled = true;
+
+    $.post("{{ url_for('endpoints.view_camera_controls') }}",
+    {
+      request_type: "activate",
+    },
+    function(response) {
+        console.log('activate_camera - Post returned: ', response);
+        button.disabled = false;
+        if (response !== "OK") {
+            status.innerHTML = response;
+        } else {
+            status.innerHTML = "Camera activated successfully.";
+        }
+    },
+    "text");
+}
+
+function deactivate_camera(button) {
+    console.log('deactivate_camera - Click Received');
+    var status = document.getElementById("camera_status_span");
+    status.innerHTML = "Requesting camera deactivation...";
+    button.disabled = true;
+
+    $.post("{{ url_for('endpoints.view_camera_controls') }}",
+    {
+      request_type: "deactivate",
+    },
+    function(response) {
+        console.log('deactivate_camera - Post returned: ', response);
+        button.disabled = false;
+        if (response !== "OK") {
+            status.innerHTML = response;
+        } else {
+            status.innerHTML = "Camera deactivated successfully.";
+        }
+    },
+    "text");
+}
+
+</script>
+
+{% endblock %}

@@ -1,9 +1,10 @@
 from flask import (
-    Blueprint, g, redirect, render_template, request, url_for, make_response
+    Blueprint, g, redirect, render_template, request, url_for, make_response, send_file, send_from_directory, current_app
 )
 
 import requests
 import smtplib
+import os
 
 bp = Blueprint('endpoints', __name__)
 
@@ -22,6 +23,32 @@ def index():
         print(query_str)
 
     return render_template('index.html')
+
+@bp.route('/control/camera', methods=('GET', 'POST'))
+def view_camera_controls():
+    if request.method == 'POST':
+        request_type = request.form['request_type']
+        if request_type == "activate":
+            if not handle_activate_camera():
+                return make_response("Failed to activate camera.", 400)
+        elif request_type == "deactivate":
+            if not handle_deactivate_camera():
+                return make_response("Failed to deactivate camera.", 400)
+        else:
+            return make_response("Unknown camera control request.", 400)
+        return make_response("OK", 200)
+    # Else, this is a GET, so render the template
+    return render_template('camera_control.html')
+
+
+@bp.route('/media/<media_filename>', methods=('GET',))
+def get_media(media_filename):
+    google_drive_dir = current_app.config['GOOGLE_DRIVE_DIR']
+    media_filepath = os.path.join(google_drive_dir, media_filename)
+    if not os.path.exists(media_filepath):
+        return make_response(f"Media filename '{media_filename}' not found in Google Drive folder.", 400)
+
+    return send_from_directory(google_drive_dir, media_filepath)
 
 
 @bp.route('/gallery/selection', methods=('POST',))
@@ -97,11 +124,21 @@ def handle_new_grandchild_media():
     # TODO Call this function when the grandchild sends new media to the grandparent
     send_led_update_request("white")
     send_gallery_update_request()
+    return True
 
 
 def handle_new_grandchild_touch():
     # TODO Call this function when the client sends a "touch" to their grandparent
     send_led_update_request("white")
+    return True
+
+
+def handle_activate_camera():
+    return True
+
+
+def handle_deactivate_camera():
+    return True
 
 
 def send_email(user, pwd, recipient, subject, body):

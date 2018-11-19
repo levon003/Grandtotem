@@ -88,9 +88,10 @@ article {
 </leftbar>
 
 <nav>
-  <ul>
-      <li>Links could go here...</li>
-  </ul>
+    <div>
+        <a href="{{ url_for('endpoints.index') }}">Index</a><br>
+        <a href="{{ url_for('endpoints.view_camera_controls') }}">Camera Controls</a><br>
+    </div>
 </nav>
 
 <article>
