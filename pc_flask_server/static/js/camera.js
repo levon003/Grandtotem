@@ -23,6 +23,18 @@ let mediaRecorder;
 let recordedBlobs;
 let sourceBuffer;
 
+const hasEchoCancellation = 0;
+const constraints = {
+  audio: {
+    echoCancellation: {exact: hasEchoCancellation}
+  },
+  video: {
+    width: 1280, height: 720
+  }
+};
+console.log('Using media constraints:', constraints);
+init(constraints);
+
 //const errorMsgElement = document.querySelector('span#errorMsg');
 const recordedVideo = document.querySelector('video#recorded');
 const recordButton = document.querySelector('button#record');
@@ -32,11 +44,12 @@ recordButton.addEventListener('click', () => {
   } else {
     stopRecording();
     recordButton.textContent = 'RECORD';
-    playButton.disabled = false;
+    //playButton.disabled = false;
     downloadButton.disabled = false;
   }
 });
 
+/*
 const playButton = document.querySelector('button#play');
 playButton.addEventListener('click', () => {
   const superBuffer = new Blob(recordedBlobs, {type: 'video/webm'});
@@ -46,8 +59,9 @@ playButton.addEventListener('click', () => {
   recordedVideo.controls = true;
   recordedVideo.play();
 });
+*/
 
-const downloadButton = document.querySelector('button#download');
+const downloadButton = document.querySelector('button#play');
 downloadButton.addEventListener('click', () => {
   const blob = new Blob(recordedBlobs, {type: 'video/webm'});
   const url = window.URL.createObjectURL(blob);
@@ -61,6 +75,8 @@ downloadButton.addEventListener('click', () => {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }, 100);
+  uploadBlob(blob);
+
 });
 
 function handleSourceOpen(event) {
@@ -107,7 +123,7 @@ function startRecording() {
   // toggle visibility
   //document.getElementById("record-icon").style.display = "none";
 
-  playButton.disabled = true;
+  //playButton.disabled = true;
   downloadButton.disabled = true;
   mediaRecorder.onstop = (event) => {
     console.log('Recorder stopped: ', event);
@@ -142,17 +158,29 @@ async function init(constraints) {
   }
 }
 
-document.querySelector('button#start').addEventListener('click', async () => {
-  //const hasEchoCancellation = document.querySelector('#echoCancellation').checked;
-  const hasEchoCancellation = 0;
-  const constraints = {
-    audio: {
-      echoCancellation: {exact: hasEchoCancellation}
-    },
-    video: {
-      width: 1280, height: 720
-    }
-  };
-  console.log('Using media constraints:', constraints);
-  await init(constraints);
+$(document).keypress(function(e) {
+  if(e.which == 13) {
+    console.log("keypressed");
+    window.location.href = "/slideshow";
+    //console.log("{{ url_for('video') }}");
+  }
 });
+
+function uploadBlob(blob) {
+    var formData = new FormData();
+    formData.append('file', blob);
+    $.ajax({
+        url: '/video/upload',
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            //alert('Successfully uploaded.');
+        },
+        error: function(jqXHR, textStatus, errorMessage) {
+            //alert('Error:' + JSON.stringify(errorMessage));
+        }
+    });
+
+}
