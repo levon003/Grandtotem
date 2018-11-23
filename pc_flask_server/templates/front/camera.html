@@ -13,7 +13,6 @@
     <meta name="description" content="WebRTC code samples">
     <meta name="viewport" content="width=device-width, user-scalable=yes, initial-scale=1, maximum-scale=1">
     <meta itemprop="description" content="Client-side WebRTC code samples">
-    <meta itemprop="image" content="../../../images/webrtc-icon-192x192.png">
     <meta itemprop="name" content="WebRTC code samples">
     <meta name="mobile-web-app-capable" content="yes">
     <meta id="theme-color" name="theme-color" content="#ffffff">
@@ -22,10 +21,7 @@
 
     <title>GrandTotem Video Message View</title>
 
-    <link rel="icon" sizes="192x192" href="../../../images/webrtc-icon-192x192.png">
-    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="../../../css/main.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../../static/camera.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
 </head>
@@ -33,22 +29,18 @@
 <body>
 
 <div id="container">
-
-
     <video id="gum" playsinline autoplay muted></video>
     <video id="recorded" playsinline loop></video>
 
     <div id = "buttons">
-        <button class="round-btn" id="start">
+        <!--<button class="round-btn" id="start">
           <i class="fas fa-video"></i>
-        </button>
+        </button>-->
         <button class="round-btn" id="record" disabled>RECORD</button>
         <!--<i id="record-icon" class="fas fa-circle"></i>
         <i id="stop-icon" class="fas fa-stop"></i>-->
-        <button class="round-btn" id="play" disabled>
-          <i class="fas fa-envelope"></i>
-        </button>
-        <button class="round-btn" id="download" disabled>Download</button>
+        <button class="round-btn" id="play" disabled>SEND</button>
+        <!--<button class="round-btn" id="download" disabled>Download</button>--?
     </div>
 
     <!--<div>
@@ -66,8 +58,11 @@
 
 <!-- include adapter for srcObject shim -->
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-<script src="js/main.js" async></script>
-<script src="../../../js/lib/ga.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script><script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+<script src="{{url_for('static', filename='js/camera.js')}}"></script>
 
 </body>
 </html>

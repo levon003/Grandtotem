@@ -35,7 +35,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'grandtotemPcServer.sqlite'),
         CONFIG_FILE=os.path.join(app.instance_path, 'server_settings.config'),
-        GOOGLE_DRIVE_DIR=os.path.join(app.instance_path, 'google_drive_folder')
+        GOOGLE_DRIVE_DIR=os.path.join(app.root_path, 'media')
     )
 
     app.config.version = VERSION
@@ -54,7 +54,11 @@ def create_app(test_config=None):
     app.register_blueprint(endpoints.bp)
     app.add_url_rule('/', endpoint='index')
 
+    from . import videos
+    app.register_blueprint(videos.bp)
+
     check_media_folder(get_folder_contents())
+
     return app
 
 
