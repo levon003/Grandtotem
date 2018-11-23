@@ -6,17 +6,17 @@ from flask import Flask
 VERSION = "0.0.1"
 
 def check_media_folder(prev_folder_contents):
-  folder_contents = []
-  new_file = False
-  for root, dirs, files in os.walk("./pc_flask_server/media"):
-    for filename in files:
-      folder_contents.append(filename)
-      if not filename in prev_folder_contents:
-        print(filename)
-        new_file = True
-  if not new_file:
-    print("No new files")
-  threading.Timer(10.0, check_media_folder, [folder_contents]).start()
+    folder_contents = []
+    new_file = False
+    for root, dirs, files in os.walk("./pc_flask_server/media"):
+        for filename in files:
+            folder_contents.append(filename)
+            if not filename in prev_folder_contents:
+                print(filename)
+                new_file = True
+    if not new_file:
+        print("No new files")
+    threading.Timer(10.0, check_media_folder, [folder_contents]).start()
 
 
 def create_app(test_config=None):
@@ -26,7 +26,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'grandtotemPcServer.sqlite'),
         CONFIG_FILE=os.path.join(app.instance_path, 'server_settings.config'),
-        GOOGLE_DRIVE_DIR=os.path.join(app.instance_path, 'google_drive_folder')
+        GOOGLE_DRIVE_DIR=os.path.join(app.root_path, 'media')
     )
 
     app.config.version = VERSION
@@ -45,7 +45,11 @@ def create_app(test_config=None):
     app.register_blueprint(endpoints.bp)
     app.add_url_rule('/', endpoint='index')
 
+    from . import videos
+    app.register_blueprint(videos.bp)
+
     check_media_folder([])
+
     return app
 
 
