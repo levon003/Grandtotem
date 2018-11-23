@@ -5,6 +5,8 @@ from flask import (
 import requests
 import smtplib
 import os
+import datetime
+import time
 
 bp = Blueprint('videos', __name__)
 app = Flask(__name__)
@@ -15,8 +17,10 @@ def slideshow():
     ## media_directory = os.path.join(app.instance_path, 'media')
     media_names = []
     for file in os.listdir('/Users/yyyuan/Documents/GitHub/Grandtotem/pc_flask_server/media'):
-        if file.endswith(".jpg") or file.endswith(".png") or file.endswith(".webm") or file.endswith(".mp4"):
+        if file.endswith(".jpg") or file.endswith(".png"):
             media_names.append(file)
+        if file.endswith(".webm") or file.endswith(".mp4"):
+            video_names.append(file)
     print(media_names)
 
     return render_template('front/slideshow.html',media_names=media_names)
@@ -31,7 +35,10 @@ def video():
 def video_upload():
     if request.method == 'POST':
         file = request.files['file']
-        filename = 'video_message.webm'
+        ts = time.time()
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        filename = st+'.webm'
+        print (filename)
         file.save(app.root_path+'/media/'+filename)
     return 'video saved'
 

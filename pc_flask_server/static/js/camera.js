@@ -67,8 +67,8 @@ downloadButton.addEventListener('click', () => {
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.style.display = 'none';
-  a.href = url;
-  a.download = 'test.webm';
+  // a.href = url;
+  // a.download = 'test.webm';
   document.body.appendChild(a);
   a.click();
   setTimeout(() => {
