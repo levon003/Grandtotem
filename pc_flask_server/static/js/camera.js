@@ -12,7 +12,8 @@
 'use strict';
 
 /* set up div width and height */
-
+var w = window.innerWidth;
+var h = window.innerHeight;
 
 
 /* globals MediaRecorder */
@@ -29,7 +30,7 @@ const constraints = {
     echoCancellation: {exact: hasEchoCancellation}
   },
   video: {
-    width: 1280, height: 720
+    width: w, height: h
   }
 };
 console.log('Using media constraints:', constraints);
