@@ -1,0 +1,32 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./static/home.css>
+    <title>{% block title %}home{% endblock %}</title>
+</head>
+
+<body>
+{% block header %}{% endblock %}
+
+{% block content %}
+     <div class="container">
+         <div class="row>
+             
+	     <div class="col-md-4 col-sm-6">
+                 <a href="{{ url_for("photo", photoUrl="../../../../mnt/gdrivefs/1.jpg") }}">
+                     <img src="~/home/pi/gdrivefs/1.jpg" class="img-thumbnail" style="margin-bottom:20px;">
+                 </a>
+             </div>
+
+             <div class="col-md-4 col-sm-6">
+                 <a href="{{ url_for("photo", photoUrl="../../../../mnt/gdrivefs/2.jpg")}}">
+                     <img src="../../../../mnt/gdrivefs/2.jpg" class="img-thumbnail" style="margin-bottom:20px;"> 
+                 </a>
+             </div>
+
+         </div>
+     </div>
+{% endblock %}
+
+</body>
+</html>
