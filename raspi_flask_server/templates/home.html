@@ -12,17 +12,25 @@
      <div class="container">
          <div class="row>
              
+             {% for item in imgList %}
 	     <div class="col-md-4 col-sm-6">
-                 <a href="{{ url_for("photo", photoUrl="../../../../mnt/gdrivefs/1.jpg") }}">
-                     <img src="~/home/pi/gdrivefs/1.jpg" class="img-thumbnail" style="margin-bottom:20px;">
-                 </a>
-             </div>
+                <a href="{{ url_for('selection', fileName=item) }}">
+             	    <img src="./static/gdrive/{{ item }}" class="img-thumbnail" style="margin-bottom:20px;">
+             	</a>
+	     </div>
+             {% endfor %}
 
-             <div class="col-md-4 col-sm-6">
-                 <a href="{{ url_for("photo", photoUrl="../../../../mnt/gdrivefs/2.jpg")}}">
-                     <img src="../../../../mnt/gdrivefs/2.jpg" class="img-thumbnail" style="margin-bottom:20px;"> 
-                 </a>
-             </div>
+         </div>
+     </div>
+
+     <div class="container>
+	<div class="row>
+             
+             {% for item in videoList %}
+             <a href="{{ url_for('selection', fileName=item) }}">
+	         <video src="/static/gdrive/{{ item }}" width="320" height="270" controls></video>
+             </a>
+	     {% endfor %}
 
          </div>
      </div>
