@@ -5,6 +5,11 @@
  *  that can be found in the LICENSE file in the root of the source
  *  tree.
  */
+
+#container, #buttons, body {
+  cursor: none;
+}
+
  button {
   margin: 0 3px 10px 0;
   padding-left: 2px;

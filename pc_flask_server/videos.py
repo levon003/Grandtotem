@@ -29,18 +29,24 @@ def slideshow():
             media_names.append(file)
         if file.endswith(".webm") or file.endswith(".mp4"):
             video_names.append(file)
+    selected_media = ''
+    if request.method == 'POST':
+        content = request.get_json(force=True)
+        selected_media = content['file_name']
+        print (selected_media)
+        return render_template('front/selected_media.html', selected_media=selected_media)
 
     return render_template('front/slideshow.html',media_names=media_names)
 
-@bp.route('/slideshow/view', methods=('GET', 'POST'))
+@bp.route('/view', methods=('GET', 'POST'))
 def slideshow_view():
-    selected_media = ''
-    if request.method == 'POST':
-        print("new request ")
-        content = request.get_json(force=True)
-        selected_media = content['file_name']
-    return render_template('front/selected_media.html', selected_media=selected_media)
-
+    selected_media = request.args.get('selected')
+    media_type = ''
+    if selected_media.endswith(".jpg") or selected_media.endswith(".png"):
+        media_type = 'image'
+    if selected_media.endswith(".webm") or selected_media.endswith(".mp4"):
+        media_type = 'video'
+    return render_template('front/selected_media.html', selected_media=selected_media, media_type=media_type)
 
 @bp.route('/video', methods=('GET', 'POST'))
 def video():
@@ -52,11 +58,11 @@ def video_upload():
     if request.method == 'POST':
         file = request.files['file']
         ts = time.time()
-        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d-%H-%M-%S')
         filename = st+'.webm'
         filepath = app.root_path+'/media/'+filename
         file.save(filepath)
-        sendMail( ["csci5127.grandtotem@gmail.com"], "New Message", "New Message", [filepath] )
+        send_mail( ["csci5127.grandtotem@gmail.com"], "New Message from GGrandparent", "New Message", [filepath] )
     return 'video saved'
 
 
@@ -70,7 +76,7 @@ def media_files(filename):
 USERNAME = "csci5127.grandtotem@gmail.com"
 PASSWORD = "abcd_1234"
 
-def sendMail(to, subject, text, files=[]):
+def send_mail(to, subject, text, files=[]):
     assert type(to)==list
     assert type(files)==list
 

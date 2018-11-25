@@ -7,7 +7,7 @@ $(document).keypress(function(e) {
   if(e.which == 32) {
     var file_name = {file_name: '6.jpg'}
     $.ajax({
-        url: '/slideshow/view',
+        url: '/slideshow',
         type: "POST",
         dataType: 'json',
         data: JSON.stringify(file_name),
@@ -20,7 +20,8 @@ $(document).keypress(function(e) {
             //alert('Error:' + JSON.stringify(errorMessage));
         },
         complete: function(data) {
-            window.location.href = "/slideshow/view";
+            redirect = "http://127.0.0.1:5001/view?selected=6.jpg"
+            window.location.href = redirect;
         }
     });
 

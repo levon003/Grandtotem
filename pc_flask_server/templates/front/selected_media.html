@@ -24,7 +24,14 @@
 
 <div id="container">
   <div id="selected-media">
-    <p>{{ selected_media }}</p>
+    {% if media_type == "image" %}
+      <img id = "selected_img" class="" src="{{url_for('videos.media_files', filename=selected_media)}}" >
+    {% endif %}
+    {% if media_type == "video" %}
+      <video id = "myVideo" width="100%" height="auto" autoplay>
+          <source src="{{url_for('videos.media_files', filename=selected_media)}}" type="video/webm">
+      </video>
+    {% endif %}
   </div>
 </div>
 
@@ -34,13 +41,7 @@
   crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script>
-  $('.carousel').carousel()
-  $(".carousel-item:first").addClass("active");
-
-</script>
-
-<script src="{{url_for('static', filename='js/slideshow.js')}}"></script>
+<script src="{{url_for('static', filename='js/selected_media.js')}}"></script>
 
 </body>
 </html>
