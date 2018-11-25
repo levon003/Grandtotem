@@ -26,6 +26,6 @@ if (video !== null) {
     // Your application has indicated there's an error
     window.setTimeout(function(){
     // Move to a new location or you can do something else
-    //window.location.href = "/slideshow";
+    window.location.href = "/slideshow";
   }, (5000));
 }
