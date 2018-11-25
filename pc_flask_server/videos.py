@@ -2,17 +2,12 @@ from flask import (
     Flask, flash, Blueprint, g, redirect, render_template, request, url_for, make_response, send_file, send_from_directory, current_app
 )
 
-import requests
-import smtplib
+from pc_flask_server.email_utils import send_mail
+
+
 import os
 import datetime
 import time
-
-from email.mime.multipart  import MIMEMultipart
-from email.mime.base import MIMEBase
-from email.mime.text import MIMEText
-from email.utils import COMMASPACE, formatdate
-from email import encoders
 
 bp = Blueprint('videos', __name__)
 app = Flask(__name__)
@@ -71,35 +66,3 @@ def media_files(filename):
     google_drive_dir = current_app.config['GOOGLE_DRIVE_DIR']
     return send_from_directory(google_drive_dir, filename)
 
-
-
-USERNAME = "csci5127.grandtotem@gmail.com"
-PASSWORD = "abcd_1234"
-
-def send_mail(to, subject, text, files=[]):
-    assert type(to)==list
-    assert type(files)==list
-
-    msg = MIMEMultipart()
-    msg['From'] = USERNAME
-    msg['To'] = COMMASPACE.join(to)
-    msg['Date'] = formatdate(localtime=True)
-    msg['Subject'] = subject
-
-    msg.attach( MIMEText(text) )
-
-    for file in files:
-        part = MIMEBase('application', "octet-stream")
-        part.set_payload( open(file,"rb").read() )
-        encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="%s"'% os.path.basename(file))
-        msg.attach(part)
-
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.ehlo_or_helo_if_needed()
-    server.starttls()
-    server.ehlo_or_helo_if_needed()
-    server.login(USERNAME,PASSWORD)
-    server.sendmail(USERNAME, to, msg.as_string())
-    server.quit()
-    print ('send email')

@@ -5,8 +5,9 @@ from flask import Flask
 
 VERSION = "0.0.1"
 
+
 def check_media_folder(prev_folder_contents):
-  # uses timed threads to recursively chek for new items in the folder every 10 seconds
+  # uses timed threads to recursively check for new items in the folder every 10 seconds
   folder_contents = []
   new_file = False
   for root, dirs, files in os.walk("./pc_flask_server/media"):
@@ -18,6 +19,7 @@ def check_media_folder(prev_folder_contents):
   if not new_file:
     print("No new files")
   threading.Timer(10.0, check_media_folder, [folder_contents]).start()
+
 
 def get_folder_contents():
     # simply returns list of contents of folder
@@ -35,6 +37,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'grandtotemPcServer.sqlite'),
         CONFIG_FILE=os.path.join(app.instance_path, 'server_settings.config'),
+        PASSWORD_FILE="csci5127.grandtotem.password",
         GOOGLE_DRIVE_DIR=os.path.join(app.root_path, 'media')
     )
 
