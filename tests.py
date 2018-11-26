@@ -1,3 +1,5 @@
+# Tests for various aspects of the code
+
 import requests
 
 import sys

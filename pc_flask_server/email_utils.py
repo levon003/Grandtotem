@@ -1,9 +1,9 @@
+# This file contains utility functions for sending emails
 
 from flask import (
-    Blueprint, g, redirect, render_template, request, url_for, make_response, send_file, send_from_directory, current_app
+    current_app
 )
 
-import requests
 import smtplib
 import os
 
@@ -14,10 +14,13 @@ from email.utils import COMMASPACE, formatdate
 from email import encoders
 
 USERNAME = "csci5127.grandtotem@gmail.com"
-# PASSWORD = "abcd_1234"
 
 
 def get_password():
+    """
+    Retrieves the password for the sending email address from the PASSWORD_FILE in the instance directory.
+    :return:
+    """
     password_filename = current_app.config["PASSWORD_FILE"]
     password_filepath = os.path.join(current_app.instance_path, password_filename)
     with open(password_filepath, 'r') as infile:
@@ -52,4 +55,4 @@ def send_mail(to, subject, text, files=[]):
     server.login(USERNAME, get_password())
     server.sendmail(USERNAME, to, msg.as_string())
     server.quit()
-    print('sent email successfully')
+    print(f'Sent email successfully from {USERNAME}.')

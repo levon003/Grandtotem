@@ -1,9 +1,8 @@
 import os
-import threading
 
 from flask import Flask
 
-VERSION = "0.0.1"
+VERSION = "0.1.0"
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)

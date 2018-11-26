@@ -2,8 +2,8 @@ from flask import (
     Blueprint, g, redirect, render_template, request, url_for, make_response, send_file, send_from_directory, current_app
 )
 
-import requests
 import os
+import threading
 
 from pc_flask_server.email_utils import send_mail
 
@@ -12,6 +12,9 @@ bp = Blueprint('endpoints', __name__)
 
 
 file_to_display = None
+
+camera_lock = threading.Lock()
+is_camera_active = False
 should_camera_be_active = False
 should_camera_be_deactivated = False
 
@@ -99,6 +102,22 @@ def handle_should_file_be_displayed():
     return make_response("No", 200)
 
 
+def display_media(filename):
+    global file_to_display
+    # TODO Check to make sure the filename actually exists in the local google drive
+    print(f"Registering filename '{filename}' as to-be-displayed.")
+    file_to_display = filename
+    return True
+
+
+def send_touch_notification_to_grandchild():
+    send_mail(["csci5127.grandtotem@gmail.com"],
+               "Your grandparent has touched the grandtotem!",
+               "Consider sending them a quick message.")
+    print("Email sent with touch notification.")
+    return True
+
+
 @bp.route('/shouldCameraViewBeActive', methods=("POST",))
 def handle_should_camera_be_active():
     global should_camera_be_active
@@ -117,54 +136,6 @@ def handle_should_camera_be_deactivated():
         print("Informing front-end that camera should be deactivated.")
         return make_response("Yes", 200)
     return make_response("No", 200)
-
-
-def display_media(filename):
-    global file_to_display
-    # TODO Check to make sure the filename actually exists in the local google drive
-    print(f"Registering filename '{filename}' as to-be-displayed.")
-    file_to_display = filename
-    return True
-
-
-def send_touch_notification_to_grandchild():
-    send_mail(["csci5127.grandtotem@gmail.com"],
-               "Your grandparent has touched the grandtotem!",
-               "Consider sending them a quick message.")
-    print("Email sent with touch notification.")
-    return True
-
-
-def send_gallery_update_request():
-    """
-    Requests that the server running the gallery display will update appropriately.
-    :return: True if the request succeeded, false otherwise.
-    """
-    res = requests.post('http://127.0.0.1:5000/gallery/update')
-    return res.status_code != 200
-
-
-def send_led_update_request(led_color):
-    """
-    Requests that the server update the LEDs
-    :return: True if the request succeeded, false otherwise.
-    """
-    led_json = {'color': led_color}
-    res = requests.post('http://127.0.0.1:5000/led/update', json=led_json)
-    return res.status_code != 200
-
-
-def handle_new_grandchild_media():
-    # TODO Call this function when the grandchild sends new media to the grandparent
-    send_led_update_request("white")
-    send_gallery_update_request()
-    return True
-
-
-def handle_new_grandchild_touch():
-    # TODO Call this function when the client sends a "touch" to their grandparent
-    send_led_update_request("white")
-    return True
 
 
 def handle_activate_camera():
