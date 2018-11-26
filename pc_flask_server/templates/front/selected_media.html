@@ -30,6 +30,7 @@
     {% if media_type == "video" %}
       <video id = "myVideo" width="100%" height="auto" autoplay>
           <source src="{{url_for('videos.media_files', filename=selected_media)}}" type="video/webm">
+          <source src="{{url_for('videos.media_files', filename=selected_media)}}" type="video/mp4">
       </video>
     {% endif %}
   </div>
