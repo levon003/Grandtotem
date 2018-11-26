@@ -15,7 +15,7 @@
          <div class="row display-flex ">
 
              {% for media_item in mediaList %}
-                <div class="col-sm-6 media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                <div class="col-5 media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
                     {%  if media_item['media_type'] == "image" %}
                         {%  if media_item['new_status'] == "new" %}
                           <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail new_media">
