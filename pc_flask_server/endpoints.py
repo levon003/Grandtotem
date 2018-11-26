@@ -34,6 +34,8 @@ def index():
 @bp.route('/control/camera', methods=('GET', 'POST'))
 def view_camera_controls():
     if request.method == 'POST':
+        print(request)
+        print(request.form)
         request_type = request.form['request_type']
         if request_type == "activate":
             if not handle_activate_camera():
