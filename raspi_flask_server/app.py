@@ -40,7 +40,7 @@ def galleryUpdate():
 @app.route('/shouldGalleryBeUpdated', methods=['POST'])
 def checkForGalleryUpdate():
     global shouldGalleryBeUpdated
-    if (!shouldGalleryBeUpdated):
+    if (not shouldGalleryBeUpdated):
         return make_response("No", 200)
     else:
         shouldGalleryBeUpdated = False
