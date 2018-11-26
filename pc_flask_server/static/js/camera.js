@@ -191,7 +191,7 @@ $( document ).ready(function() {
 });
 
 function shouldCameraViewBeDeactivated() {
-    $.post("/shouldCameraViewBeActive",
+    $.post("/shouldCameraBeDeactivated",
         {},
         function (response) {
             if (response === "No") {
@@ -204,4 +204,25 @@ function shouldCameraViewBeDeactivated() {
             }
         },
         "text");
+}
+
+// convert the touch input to map to the button
+// for mapping the input on touch screen
+var container = document.querySelector("#container");
+
+// retrieve left button and write button
+
+container.addEventListener("click", getClickPosition, false);
+
+function getClickPosition(e) {
+    var xPosition = e.clientX;
+    var yPosition = e.clientY;
+    console.log(xPosition, yPosition);
+    if (yPosition < 480/2) {
+      console.log('right button clicked');
+      // click the right button
+    } else if (yPosition > 480/2){
+      console.log('left button clicked');
+      // click the left button 
+    }
 }
