@@ -20,9 +20,10 @@ def slideshow():
     video_names = []
 
     for file in os.listdir(app.root_path+'/media'):
-        if file.endswith(".jpg") or file.endswith(".png"):
+        lc_filename = file.lower()
+        if lc_filename.endswith(".jpg") or lc_filename.endswith(".gif") or lc_filename.endswith(".png"):
             media_names.append(file)
-        if file.endswith(".webm") or file.endswith(".mp4"):
+        if lc_filename.endswith(".webm") or lc_filename.endswith(".mp4") or lc_filename.endswith(".mov"):
             video_names.append(file)
     selected_media = ''
     if request.method == 'POST':
@@ -56,7 +57,7 @@ def video_upload():
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d-%H-%M-%S')
         filename = st+'.webm'
         filepath = app.root_path+'/media/'+filename
-        file.save(filepath)
+        #file.save(filepath)
         send_mail( ["csci5127.grandtotem@gmail.com"], "Your grandparent has sent you a new message!", "Consider reply to the message.", [filepath] )
     return 'video saved'
 
