@@ -1,7 +1,11 @@
-.container{
- padding-top:20px;
+.img-thumbnail{
+ height: 33%;
+ border-width:5px !important;
+ margin-bottom: 10px;
+ margin-top: 10px
 }
 
-.img-thumbnail{
- margin-bottom:20px;
+.row.display-flex {
+  display: flex;
+  flex-wrap: wrap;
 }
