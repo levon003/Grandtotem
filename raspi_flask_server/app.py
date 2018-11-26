@@ -36,15 +36,18 @@ def home():
 def gallery():
     imgList = loadImg()
     videoList = loadVideo()
+    print("Retrieved %d images and %d videos for rendering in the gallery." % (len(imgList), len(videoList)))
     return render_template('home.html', imgList=imgList, videoList=videoList)
 
 
+# This endpoint is no longer used (deprecated)
 @app.route('/gallery/update', methods=['POST'])
 def galleryUpdate():
     if request.method == 'POST':
-        imgList = loadImg()
-        videoList = loadVideo()
-        return render_template('home.html', imgList=imgList, videoList=videoList)
+        return make_response("OK", 200)
+        #imgList = loadImg()
+        #videoList = loadVideo()
+        #return render_template('home.html', imgList=imgList, videoList=videoList)
 
 
 @app.route('/shouldGalleryBeUpdated', methods=['POST'])
@@ -54,6 +57,7 @@ def checkForGalleryUpdate():
         return make_response("No", 200)
     else:
         shouldGalleryBeUpdated = False
+        print("Informing Raspberry Pi frontend that the gallery-view should be refreshed.")
         return make_response("Yes", 200)
 
 
@@ -62,6 +66,7 @@ def selection(fileName):
     json = {'fileName': fileName}
     res = requests.post(pcFlaskServerEndpoint + 'gallery/selection', json=json)
     if res.status_code == 200:
+        print("Gallery selection made successfully... checking for unselected image.")
         with unselected_images_lock:
             if fileName in unselected_images:
                 print("A previously unselected media ('%s') has been selected." % fileName)
@@ -75,7 +80,11 @@ def selection(fileName):
 def loadImg():
     imgList = []
     for filename in os.listdir(dir):
-        if filename.endswith(".jpg") or filename.endswith(".jpeg"):
+        lc_filename = filename.lower()
+        if lc_filename.endswith(".jpg") \
+                or lc_filename.endswith(".jpeg") \
+                or lc_filename.endswith(".png") \
+                or lc_filename.endswith(".gif"):
             imgList.append(filename)
         else:
             continue
@@ -86,7 +95,8 @@ def loadImg():
 def loadVideo():
     videoList = []
     for filename in os.listdir(dir):
-        if filename.endswith(".webm") or filename.endswith(".mp4"):
+        lc_filename = filename.lower()
+        if lc_filename.endswith(".webm") or lc_filename.endswith(".mp4"):
             videoList.append(filename)
         else:
             continue
@@ -94,14 +104,14 @@ def loadVideo():
     return videoList
 
 
-def update_led():
-    with unselected_images_lock:
-        if len(unselected_images) > 0:
-            io.output(led_pin, io.HIGH)
-            print("Setting LED output to HIGH, as there are %d unselected media." % len(unselected_images))
-        else:  # there are no unselected images
-            io.output(led_pin, io.LOW)
-            print("Setting LED output to LOW, as there are no unselected media.")
+def update_led():  # this function assumes the unselected_images_lock is currently held
+    print("Updating LED...")
+    if len(unselected_images) > 0:
+        io.output(led_pin, io.HIGH)
+        print("Setting LED output to HIGH, as there are %d unselected media." % len(unselected_images))
+    else:  # there are no unselected images
+        io.output(led_pin, io.LOW)
+        print("Setting LED output to LOW, as there are no unselected media.")
 
 
 def check_pin(prev_state):
