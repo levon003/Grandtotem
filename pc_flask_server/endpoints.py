@@ -63,6 +63,7 @@ def make_gallery_selection():
     if request.method != 'POST':
         return make_response("Can only POST to this endpoint.", 400)
 
+    print(request)
     request_json = request.get_json(force=True)
     if 'fileName' not in request_json:
         return make_response("Expected to be provided with a filename key in this request.", 400)
@@ -87,8 +88,10 @@ def make_grandparent_touch():
 def handle_should_file_be_displayed():
     global file_to_display
     if file_to_display is not None:
+        print(f"Resetting filename-to-display, returning filename '{file_to_display}' to frontend request.")
+        to_display = file_to_display
         file_to_display = None
-        return make_response(file_to_display, 200)
+        return make_response(to_display, 200)
     return make_response("No", 200)
 
 
@@ -113,6 +116,7 @@ def handle_should_camera_be_deactivated():
 def display_media(filename):
     global file_to_display
     # TODO Check to make sure the filename actually exists in the local google drive
+    print(f"Registering filename '{filename}' as to-be-displayed.")
     file_to_display = filename
     return True
 
@@ -121,6 +125,7 @@ def send_touch_notification_to_grandchild():
     send_mail(["csci5127.grandtotem@gmail.com"],
                "Your grandparent has touched the grandtotem!",
                "Consider sending them a quick message.")
+    print("Email sent with touch notification.")
     return True
 
 
@@ -159,10 +164,12 @@ def handle_new_grandchild_touch():
 def handle_activate_camera():
     global should_camera_be_active
     should_camera_be_active = True
+    print("Camera registered as should-be-activated.")
     return True
 
 
 def handle_deactivate_camera():
     global should_camera_be_deactivated
     should_camera_be_deactivated = True
+    print("Camera registered as should-be-deactivated.")
     return True
