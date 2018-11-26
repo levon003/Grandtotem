@@ -4,32 +4,6 @@ import threading
 from flask import Flask
 
 VERSION = "0.0.1"
-
-
-def check_media_folder(prev_folder_contents):
-  # uses timed threads to recursively check for new items in the folder every 10 seconds
-  folder_contents = []
-  new_file = False
-  for root, dirs, files in os.walk("./pc_flask_server/media"):
-    for filename in files:
-      folder_contents.append(filename)
-      if not filename in prev_folder_contents:
-        print(filename)
-        new_file = True
-  if not new_file:
-    print("No new files")
-  threading.Timer(10.0, check_media_folder, [folder_contents]).start()
-
-
-def get_folder_contents():
-    # simply returns list of contents of folder
-    folder_contents = []
-    for root, dirs, files in os.walk("./pc_flask_server/media"):
-        for filename in files:
-            folder_contents.append(filename)
-    return folder_contents
-
-
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -59,8 +33,6 @@ def create_app(test_config=None):
 
     from . import videos
     app.register_blueprint(videos.bp)
-
-    check_media_folder(get_folder_contents())
 
     return app
 
