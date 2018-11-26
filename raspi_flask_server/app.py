@@ -98,8 +98,10 @@ def update_led():
     with unselected_images_lock:
         if len(unselected_images) > 0:
             io.output(led_pin, io.HIGH)
+            print("Setting LED output to HIGH, as there are %d unselected media." % len(unselected_images))
         else:  # there are no unselected images
             io.output(led_pin, io.LOW)
+            print("Setting LED output to LOW, as there are no unselected media.")
 
 
 def check_pin(prev_state):
