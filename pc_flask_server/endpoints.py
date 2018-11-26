@@ -104,6 +104,7 @@ def handle_should_camera_be_active():
     global should_camera_be_active
     if should_camera_be_active:
         should_camera_be_active = False
+        print("Informing front-end that camera should be active.")
         return make_response("Yes", 200)
     return make_response("No", 200)
 
@@ -113,6 +114,7 @@ def handle_should_camera_be_deactivated():
     global should_camera_be_deactivated
     if should_camera_be_deactivated:
         should_camera_be_deactivated = False
+        print("Informing front-end that camera should be deactivated.")
         return make_response("Yes", 200)
     return make_response("No", 200)
 
@@ -167,13 +169,13 @@ def handle_new_grandchild_touch():
 
 def handle_activate_camera():
     global should_camera_be_active
+    print(f"Camera registered as should-be-activated. (prev value: {should_camera_be_active})")
     should_camera_be_active = True
-    print("Camera registered as should-be-activated.")
     return True
 
 
 def handle_deactivate_camera():
     global should_camera_be_deactivated
+    print(f"Camera registered as should-be-deactivated. (prev value: {should_camera_be_deactivated})")
     should_camera_be_deactivated = True
-    print("Camera registered as should-be-deactivated.")
     return True
