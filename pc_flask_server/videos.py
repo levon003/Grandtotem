@@ -38,9 +38,10 @@ def slideshow():
 def slideshow_view():
     selected_media = request.args.get('selected')
     media_type = ''
-    if selected_media.endswith(".jpg") or selected_media.endswith(".png"):
+    lc_filename = selected_media .lower()
+    if lc_filename.endswith(".jpg") or lc_filename.endswith(".gif") or lc_filename.endswith(".png"):
         media_type = 'image'
-    if selected_media.endswith(".webm") or selected_media.endswith(".mp4"):
+    if lc_filename.endswith(".webm") or lc_filename.endswith(".mp4") or lc_filename.endswith(".mov"):
         media_type = 'video'
     return render_template('front/selected_media.html', selected_media=selected_media, media_type=media_type)
 
