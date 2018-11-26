@@ -64,8 +64,7 @@ def gallery():
                 "upload_time": upload_time
             }
             media_list.append(media_item)
-    media_list.sort(key=lambda d: d['upload_time'])
-    #TODO Check if sort order needs to be reversed
+    media_list.sort(key=lambda d: d['upload_time'], reverse=True)
 
     return render_template('home.html', mediaList=media_list)
 
