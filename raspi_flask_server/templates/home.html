@@ -13,13 +13,21 @@
      <div class="container">
          <!-- Remove .row.display-flex in css, if you want to img-thumbnail to have different height -->
          <div class="row display-flex ">
-             
+
              {% for media_item in mediaList %}
-                <div class="col-md-6 col-sm-12" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                <div class="col-sm-6 media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
                     {%  if media_item['media_type'] == "image" %}
-                    <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail border border-primary" style="margin-bottom:20px;">
+                        {%  if media_item['new_status'] == "new" %}
+                          <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail new_media">
+                        {% else %}
+                          <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail">
+                        {% endif %}
                     {% else %}
-                    <video src="/static/gdrive/{{media_item['filename']}}" class="img-thumbnail border border-primary" controls></video>
+                        {%  if media_item['new_status'] == "new" %}
+                        <video src="/static/gdrive/{{media_item['filename']}}" class="img-thumbnail"></video>
+                        {% else %}
+                        <video src="/static/gdrive/{{media_item['filename']}}" class="img-thumbnail"></video>
+                        {% endif %}
                     {% endif %}
                 </div>
              {% endfor %}

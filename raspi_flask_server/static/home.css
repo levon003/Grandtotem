@@ -1,11 +1,39 @@
-.img-thumbnail{
- height: 33%;
- border-width:5px !important;
+.img-thumbnail {
+ width: 100%;
+ max-height: 100%;
+ border-width: 5px !important;
+ border-color: blue;
  margin-bottom: 10px;
- margin-top: 10px
+ margin-top: 10px;
+ display: block;
+ text-align: center;
+}
+
+.container, .row {
+  padding: 0;
+  margin: 0;
+  margin-right: 0;
+  min-width: 480px;
+  width: 100%;
+  text-align: center;
 }
 
 .row.display-flex {
   display: flex;
   flex-wrap: wrap;
+  min-width: 100%;
+  margin: 0;
+}
+
+.col-sm-6 {
+
+}
+
+body {
+  background-color: black;
+}
+
+.img-thumbnail .new_media,
+.img-thumbnail .new_media {
+  border-color: green;
 }
