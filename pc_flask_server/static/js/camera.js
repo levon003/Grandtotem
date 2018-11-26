@@ -221,8 +221,10 @@ function getClickPosition(e) {
     if (yPosition < 480/2) {
       console.log('right button clicked');
       // click the right button
+      downloadButton.click();
     } else if (yPosition > 480/2){
       console.log('left button clicked');
-      // click the left button 
+      // click the left button
+      recordButton.click();
     }
 }

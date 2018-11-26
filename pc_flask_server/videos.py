@@ -57,7 +57,7 @@ def video_upload():
         filename = st+'.webm'
         filepath = app.root_path+'/media/'+filename
         file.save(filepath)
-        send_mail( ["csci5127.grandtotem@gmail.com"], "New Message from GGrandparent", "New Message", [filepath] )
+        send_mail( ["csci5127.grandtotem@gmail.com"], "Your grandparent has sent you a new message!", "Consider reply to the message.", [filepath] )
     return 'video saved'
 
 
@@ -65,4 +65,3 @@ def video_upload():
 def media_files(filename):
     google_drive_dir = current_app.config['GOOGLE_DRIVE_DIR']
     return send_from_directory(google_drive_dir, filename)
-
