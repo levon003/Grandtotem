@@ -38,6 +38,7 @@ def view_camera_controls():
         request_json = request.get_json(force=True)
         print(request_json)
         request_type = request_json['request_type']
+        print(request_type)
         if request_type == "activate":
             if not handle_activate_camera():
                 return make_response("Failed to activate camera.", 400)
