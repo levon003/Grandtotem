@@ -37,7 +37,37 @@ def gallery():
     imgList = loadImg()
     videoList = loadVideo()
     print("Retrieved %d images and %d videos for rendering in the gallery." % (len(imgList), len(videoList)))
-    return render_template('home.html', imgList=imgList, videoList=videoList)
+
+    media_list = []
+    with unselected_images_lock:
+        for filename in imgList:
+            upload_time = os.path.getmtime(os.path.join(dir, filename))
+            new_status = "not new"
+            if filename in unselected_images:
+                new_status = "new"
+            media_item = {
+                "filename": filename,
+                "media_type": "image",
+                "new_status": new_status,
+                "upload_time": upload_time
+            }
+            media_list.append(media_item)
+        for filename in videoList:
+            upload_time = os.path.getmtime(os.path.join(dir, filename))
+            new_status = "not new"
+            if filename in unselected_images:
+                new_status = "new"
+            media_item = {
+                "filename": filename,
+                "media_type": "video",
+                "new_status": new_status,
+                "upload_time": upload_time
+            }
+            media_list.append(media_item)
+    media_list.sort(key=lambda d: d['upload_time'])
+    #TODO Check if sort order needs to be reversed
+
+    return render_template('home.html', mediaList=media_list)
 
 
 # This endpoint is no longer used (deprecated)
@@ -96,7 +126,7 @@ def loadVideo():
     videoList = []
     for filename in os.listdir(dir):
         lc_filename = filename.lower()
-        if lc_filename.endswith(".webm") or lc_filename.endswith(".mp4"):
+        if lc_filename.endswith(".webm") or lc_filename.endswith(".mp4") or lc_filename.endswith(".mov"):
             videoList.append(filename)
         else:
             continue

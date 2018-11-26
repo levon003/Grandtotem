@@ -14,18 +14,15 @@
          <!-- Remove .row.display-flex in css, if you want to img-thumbnail to have different height -->
          <div class="row display-flex ">
              
-             {% for item in imgList %}
-                <div class="col-md-6 col-sm-12" onclick="mediaSelected('{{ url_for('selection', fileName=item) }}')">
-                    <img src="./static/gdrive/{{ item }}" class="img-thumbnail border border-primary" style="margin-bottom:20px;">
+             {% for media_item in mediaList %}
+                <div class="col-md-6 col-sm-12" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                    {%  if media_item['media_type'] == "image" %}
+                    <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail border border-primary" style="margin-bottom:20px;">
+                    {% else %}
+                    <video src="/static/gdrive/{{media_item['filename']}}" class="img-thumbnail border border-primary" controls></video>
+                    {% endif %}
                 </div>
              {% endfor %}
-             
-             {% for item in videoList %}
-                <div class="col-md-6 col-sm-12" onclick="mediaSelected('{{ url_for('selection', fileName=item) }}')">
-                    <video src="/static/gdrive/{{ item }}" class="img-thumbnail border border-primary" controls></video>
-                </div>
-	        {% endfor %}
-
          </div>
      </div>
 
