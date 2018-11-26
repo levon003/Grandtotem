@@ -1,10 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, make_response
 import RPi.GPIO as io
 import threading
 import requests
 import os
 
-pcFlaskServerEndpoint = "http://er-10-131-200-87.wireless.umn.edu:5001/"
+pcFlaskServerEndpoint = "http://localhost:5001/"
 
 io.setmode(io.BCM)
 door_pin = 23
@@ -35,7 +35,7 @@ def galleryUpdate():
     if request.method == 'POST':
         imgList = loadImg()
         videoList = loadVideo()
-        return render_template('homesfd.html', imgList=imgaList, videoList=videoList)
+        return render_template('home.html', imgList=imgList, videoList=videoList)
     
 @app.route('/shouldGalleryBeUpdated', methods=['POST'])
 def checkForGalleryUpdate():
@@ -47,10 +47,15 @@ def checkForGalleryUpdate():
         return make_response("Yes", 200)
     
 
-@app.route('/gallery/<string:fileName>')
+@app.route('/gallery/<string:fileName>', methods=("GET", "POST",))
 def selection(fileName):
     json = {'fileName':fileName}
     res = requests.post(pcFlaskServerEndpoint + 'gallery/selection', json=json)
+    if res.status_code == 200:
+        return make_response("OK", 200)
+    else:
+        return make_response("POST failed.", 500)
+    
 
 def loadImg():
     imgList = []
@@ -83,7 +88,11 @@ def check_pin(prev_state):
     else:
         test_json = {'request_type': 'deactivate'}
         print("close")
-        
+    if (switch_state != prev_state):
+        print("POSTing camera request.")
+        res = requests.post(pcFlaskServerEndpoint + 'control/camera', json = test_json)
+        print(res.status_code, res)
+    
     if led_on:
         io.output(led_pin, io.HIGH) #check if led signal is set to active then turns on LEDs
     else:
@@ -92,11 +101,8 @@ def check_pin(prev_state):
     if touch_active:
         print("touch has been sensed") # capacitive bar has registered a touch
         res = requests.post(pcFlaskServerEndpoint + 'touch/grandparent')
-    
+        
     threading.Timer(1.0, check_pin, [switch_state]).start()
-    
-    if (switch_state != prev_state):
-        res = requests.post(pcFlaskServerEndpoint + '5001/control/camera', json = test_json)
 
 def check_media_folder(prev_folder_contents):
   global shouldGalleryBeUpdated
