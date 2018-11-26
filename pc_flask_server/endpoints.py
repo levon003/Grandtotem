@@ -35,8 +35,9 @@ def index():
 def view_camera_controls():
     if request.method == 'POST':
         print(request)
-        print(request.form)
-        request_type = request.form['request_type']
+        request_json = request.get_json(force=True)
+        print(request_json)
+        request_type = request_json['request_type']
         if request_type == "activate":
             if not handle_activate_camera():
                 return make_response("Failed to activate camera.", 400)
