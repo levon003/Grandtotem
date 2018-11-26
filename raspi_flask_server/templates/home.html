@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="./static/home.css>
     <title>{% block title %}home{% endblock %}</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -37,4 +38,26 @@
 {% endblock %}
 
 </body>
+
+<script>
+$( document ).ready(function() {
+    window.setInterval(shouldGalleryBeUpdated, 100);
+});
+
+function shouldGalleryBeUpdated() {
+    $.post("/shouldGalleryBeUpdated",
+        {},
+        function (response) {
+            if (response === "No") {
+		console.log("No new photos");
+                // The server has no new file for us to display
+            } else {
+   		document.location.reload(true);
+		console.log("reload the gallery");
+	    }
+        },
+        "text");
+}
+
+</script>
 </html>
