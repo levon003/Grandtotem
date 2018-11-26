@@ -120,33 +120,50 @@ def send_touch_notification_to_grandchild():
 
 @bp.route('/shouldCameraViewBeActive', methods=("POST",))
 def handle_should_camera_be_active():
-    global should_camera_be_active
-    if should_camera_be_active:
-        should_camera_be_active = False
-        print("Informing front-end that camera should be active.")
-        return make_response("Yes", 200)
+    global should_camera_be_active, should_camera_be_deactivated, is_camera_active
+    with camera_lock:
+        if should_camera_be_active:
+            should_camera_be_active = False
+            should_camera_be_deactivated = False
+            is_camera_active = True
+            print("Informing front-end that camera should be active.")
+            return make_response("Yes", 200)
     return make_response("No", 200)
 
 
 @bp.route('/shouldCameraBeDeactivated', methods=("POST",))
 def handle_should_camera_be_deactivated():
-    global should_camera_be_deactivated
-    if should_camera_be_deactivated:
-        should_camera_be_deactivated = False
-        print("Informing front-end that camera should be deactivated.")
-        return make_response("Yes", 200)
+    global should_camera_be_active, should_camera_be_deactivated, is_camera_active
+    with camera_lock:
+        if should_camera_be_deactivated:
+            should_camera_be_active = False
+            should_camera_be_deactivated = False
+            is_camera_active = False
+            print("Informing front-end that camera should be deactivated.")
+            return make_response("Yes", 200)
     return make_response("No", 200)
 
 
 def handle_activate_camera():
-    global should_camera_be_active
-    print(f"Camera registered as should-be-activated. (prev value: {should_camera_be_active})")
-    should_camera_be_active = True
+    global should_camera_be_active, should_camera_be_deactivated
+    with camera_lock:
+        if is_camera_active:
+            print("Received request to activate camera, but the camera is already active. Ignoring request.")
+            return True
+        else:  # The camera is not yet active
+            print(f"Camera registered as should-be-activated. (prev value: {should_camera_be_active})")
+            should_camera_be_active = True
+            should_camera_be_deactivated = False
     return True
 
 
 def handle_deactivate_camera():
-    global should_camera_be_deactivated
-    print(f"Camera registered as should-be-deactivated. (prev value: {should_camera_be_deactivated})")
-    should_camera_be_deactivated = True
+    global should_camera_be_active, should_camera_be_deactivated
+    with camera_lock:
+        if not is_camera_active:
+            print("Received request to deactivate camera, but the camera is not active. Ignoring request.")
+            return True
+        print(f"Camera registered as should-be-deactivated. (prev value: {should_camera_be_deactivated})")
+        should_camera_be_active = False
+        should_camera_be_deactivated = True
     return True

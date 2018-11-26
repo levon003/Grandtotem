@@ -25,9 +25,9 @@ function activate_camera(button) {
     button.disabled = true;
 
     $.post("{{ url_for('endpoints.view_camera_controls') }}",
-    {
+    JSON.stringify({
       request_type: "activate",
-    },
+    }),
     function(response) {
         console.log('activate_camera - Post returned: ', response);
         button.disabled = false;
@@ -47,9 +47,9 @@ function deactivate_camera(button) {
     button.disabled = true;
 
     $.post("{{ url_for('endpoints.view_camera_controls') }}",
-    {
+    JSON.stringify({
       request_type: "deactivate",
-    },
+    }),
     function(response) {
         console.log('deactivate_camera - Post returned: ', response);
         button.disabled = false;
