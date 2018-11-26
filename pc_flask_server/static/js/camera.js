@@ -185,3 +185,23 @@ function uploadBlob(blob) {
     });
 
 }
+
+$( document ).ready(function() {
+    window.setInterval(shouldCameraViewBeDeactivated, 100);
+});
+
+function shouldCameraViewBeDeactivated() {
+    $.post("/shouldCameraViewBeActive",
+        {},
+        function (response) {
+            if (response === "No") {
+                // The server has no file for us to display
+                //console.log("Server says no new update.");
+            } else {
+                // TODO Should the grandparent be given the option to save the video first? For demo, no
+                let redirect = "http://127.0.0.1:5001/slideshow";
+                window.location.href = redirect;
+            }
+        },
+        "text");
+}

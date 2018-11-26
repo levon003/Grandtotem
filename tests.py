@@ -6,7 +6,7 @@ from pc_flask_server.email_utils import send_mail
 
 
 def test_gallery_selection():
-    test_json = {'filename': 'non_existing_file.txt'}
+    test_json = {'fileName': 'non_existing_file.txt'}
     res = requests.post('http://127.0.0.1:5001/gallery/selection', json=test_json)
     print(res.status_code, res.text)
     assert res.status_code == 200

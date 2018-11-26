@@ -3,10 +3,17 @@ from flask import (
 )
 
 import requests
-import smtplib
 import os
 
+from pc_flask_server.email_utils import send_mail
+
+
 bp = Blueprint('endpoints', __name__)
+
+
+file_to_display = None
+should_camera_be_active = False
+should_camera_be_deactivated = False
 
 
 @bp.route('/', methods=('GET', 'POST'))
@@ -57,9 +64,9 @@ def make_gallery_selection():
         return make_response("Can only POST to this endpoint.", 400)
 
     request_json = request.get_json(force=True)
-    if 'filename' not in request_json:
+    if 'fileName' not in request_json:
         return make_response("Expected to be provided with a filename key in this request.", 400)
-    selected_filename = request_json['filename']
+    selected_filename = request_json['fileName']
 
     if display_media(selected_filename):
         return make_response("OK", 200)
@@ -76,26 +83,42 @@ def make_grandparent_touch():
     return make_response("OK", 200)
 
 
-@bp.route('/video/recorded', methods=('POST',))
-def receive_recorded_video():
-    if request.method != 'POST':
-        return make_response("Can only POST to this endpoint.", 400)
+@bp.route('/shouldFileBeDisplayed', methods=("POST",))
+def handle_should_file_be_displayed():
+    global file_to_display
+    if file_to_display is not None:
+        file_to_display = None
+        return make_response(file_to_display, 200)
+    return make_response("No", 200)
 
-    # TODO need to receive the video here, either the raw bytes or the filename of the created file
-    return make_response("OK", 200)
+
+@bp.route('/shouldCameraViewBeActive', methods=("POST",))
+def handle_should_camera_be_active():
+    global should_camera_be_active
+    if should_camera_be_active:
+        should_camera_be_active = False
+        return make_response("Yes", 200)
+    return make_response("No", 200)
+
+
+@bp.route('/shouldCameraBeDeactivated', methods=("POST",))
+def handle_should_camera_be_deactivated():
+    global should_camera_be_deactivated
+    if should_camera_be_deactivated:
+        should_camera_be_deactivated = False
+        return make_response("Yes", 200)
+    return make_response("No", 200)
 
 
 def display_media(filename):
-    # Attempt to display the given filename
-    # If the filename can't be found or it can't be displayed, return False
-    # TODO Figure out how Irene wants to do this...
-    
+    global file_to_display
+    # TODO Check to make sure the filename actually exists in the local google drive
+    file_to_display = filename
     return True
 
 
 def send_touch_notification_to_grandchild():
-    # TODO Include a system for injecting the proper authentication details from an external config file
-    send_email("test_user", "password", "test_user@gmail.com",
+    send_mail(["csci5127.grandtotem@gmail.com"],
                "Your grandparent has touched the grandtotem!",
                "Consider sending them a quick message.")
     return True
@@ -134,31 +157,12 @@ def handle_new_grandchild_touch():
 
 
 def handle_activate_camera():
+    global should_camera_be_active
+    should_camera_be_active = True
     return True
 
 
 def handle_deactivate_camera():
-    return True
-
-
-def send_email(user, pwd, recipient, subject, body):
-    # https://stackoverflow.com/a/12424439
-    FROM = user
-    TO = recipient if isinstance(recipient, list) else [recipient]
-    SUBJECT = subject
-    TEXT = body
-
-    # Prepare actual message
-    message = """From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
-    try:
-        server = smtplib.SMTP("smtp.gmail.com", 587)
-        server.ehlo()
-        server.starttls()
-        server.login(user, pwd)
-        server.sendmail(FROM, TO, message)
-        server.close()
-    except Exception as ex:
-        print(ex)
-        return False
+    global should_camera_be_deactivated
+    should_camera_be_deactivated = True
     return True
