@@ -14,6 +14,8 @@ led_pin = 17
 touch_pin = 18
 io.setup(door_pin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(led_pin, io.OUT)
+io.output(led_pin, io.LOW)
+print("Initialized LED pin to off.")
 io.setup(touch_pin, io.IN, pull_up_down=io.PUD_DOWN)
 
 shouldGalleryBeUpdated = False
