@@ -135,6 +135,8 @@ def handle_should_camera_be_active():
 def handle_should_camera_be_deactivated():
     global should_camera_be_active, should_camera_be_deactivated, is_camera_active
     with camera_lock:
+        if not is_camera_active:
+            print("WARNING: Received shouldCameraBeDeactivated request, but internally the camera is not activated.  Consider manually resetting the front-end to the slideshow view.")
         if should_camera_be_deactivated:
             should_camera_be_active = False
             should_camera_be_deactivated = False
