@@ -218,11 +218,11 @@ function getClickPosition(e) {
     var xPosition = e.clientX;
     var yPosition = e.clientY;
     console.log(xPosition, yPosition);
-    if (yPosition < 480/2) {
+    if (yPosition < 480/2 - 25) {
       console.log('right button clicked');
       // click the right button
       downloadButton.click();
-    } else if (yPosition > 480/2){
+    } else if (yPosition > 480/2 + 25){
       console.log('left button clicked');
       // click the left button
       recordButton.click();

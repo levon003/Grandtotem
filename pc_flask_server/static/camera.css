@@ -10,21 +10,6 @@
   cursor: none;
 }
 
- button {
-  margin: 0 3px 10px 0;
-  padding-left: 2px;
-  padding-right: 2px;
-  width: 99px;
-}
-
-button:last-of-type {
-  margin: 0;
-}
-
-p.borderBelow {
-  margin: 0 0 20px 0;
-  padding: 0 0 20px 0;
-}
 
 video {
   position: fixed;
@@ -46,6 +31,7 @@ video#gumVideo {
  background: rgba(0,0,0,0.15);
  width: 100%;
  padding-top: 10px;
+ padding-bottom: 10px;
  text-align: center;
  z-index: 50;
 }
@@ -58,8 +44,8 @@ video#gumVideo {
  background-color: #2962ff;
  border-color: #2962ff;
  color: #ffffff;
- margin-left: 15px;
- margin-right: 15px;
+ margin-left: 25px;
+ margin-right: 25px;
  font-size: 12px;
  font-weight: 600;
 }
