@@ -17,21 +17,21 @@
 
                     {%  if media_item['media_type'] == "image" %}
                         {%  if media_item['new_status'] == "new" %}
-                          <div class="media_grid_item new_media" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                          <div class="media_grid_item new_media" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename'])}}', this)">
                           <img src="./static/gdrive/{{media_item['filename']}}">
                           </div>
                         {% else %}
-                        <div class="media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                        <div class="media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}', this)">
                           <img src="./static/gdrive/{{media_item['filename']}}">
                           </div>
                         {% endif %}
                     {% else %}
                         {%  if media_item['new_status'] == "new" %}
-                          <div class="media_grid_item new_media" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                          <div class="media_grid_item new_media" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}', this)">
                         <video src="/static/gdrive/{{media_item['filename']}}"></video>
                         </div>
                         {% else %}
-                          <div class="media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                          <div class="media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}', this)">
                         <video src="/static/gdrive/{{media_item['filename']}}"></video>
                         </div>
                         {% endif %}
@@ -65,7 +65,7 @@ function shouldGalleryBeUpdated() {
         "text");
 }
 
-function mediaSelected(url) {
+function mediaSelected(url,this) {
     $.post(url,
         {},
         function (response) {
@@ -76,6 +76,9 @@ function mediaSelected(url) {
 	    }
         },
         "text");
+    //
+    this.classList.remove("new_media");
+
 }
 
 </script>
