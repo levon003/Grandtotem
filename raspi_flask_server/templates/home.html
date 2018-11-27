@@ -65,7 +65,7 @@ function shouldGalleryBeUpdated() {
         "text");
 }
 
-function mediaSelected(url,this) {
+function mediaSelected(url, div_item) {
     $.post(url,
         {},
         function (response) {
@@ -77,7 +77,7 @@ function mediaSelected(url,this) {
         },
         "text");
     //
-    this.classList.remove("new_media");
+    div_item.classList.remove("new_media");
 
 }
 
