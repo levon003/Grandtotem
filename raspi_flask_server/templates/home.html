@@ -12,24 +12,31 @@
 {% block content %}
      <div class="container">
          <!-- Remove .row.display-flex in css, if you want to img-thumbnail to have different height -->
-         <div class="row display-flex ">
-
+         <div id="photo-gallery">
              {% for media_item in mediaList %}
-                <div class="col-5 media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+
                     {%  if media_item['media_type'] == "image" %}
                         {%  if media_item['new_status'] == "new" %}
-                          <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail new_media">
+                          <div class="media_grid_item new_media" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                          <img src="./static/gdrive/{{media_item['filename']}}"
+                          </div>
                         {% else %}
-                          <img src="./static/gdrive/{{media_item['filename']}}" class="img-thumbnail">
+                        <div class="media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                          <img src="./static/gdrive/{{media_item['filename']}}">
+                          </div>
                         {% endif %}
                     {% else %}
                         {%  if media_item['new_status'] == "new" %}
-                        <video src="/static/gdrive/{{media_item['filename']}}" class="img-thumbnail"></video>
+                          <div class="media_grid_item new_media" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                        <video src="/static/gdrive/{{media_item['filename']}}"></video>
+                        </div>
                         {% else %}
-                        <video src="/static/gdrive/{{media_item['filename']}}" class="img-thumbnail"></video>
+                          <div class="media_grid_item" onclick="mediaSelected('{{ url_for('selection', fileName=media_item['filename']) }}')">
+                        <video src="/static/gdrive/{{media_item['filename']}}"></video>
+                        </div>
                         {% endif %}
                     {% endif %}
-                </div>
+
              {% endfor %}
          </div>
      </div>
