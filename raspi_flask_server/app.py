@@ -183,7 +183,9 @@ def check_media_folder(prev_folder_contents):
                     unselected_images.append(filename)
                     update_led()
                 shouldGalleryBeUpdated = True
-    threading.Timer(10.0, check_media_folder, [folder_contents]).start()
+    timer = threading.Timer(10.0, check_media_folder, [folder_contents])
+    timer.daemon = True  # want this thread to terminate as soon as the main thread dies
+    timer.start()
 
 
 def get_folder_contents():

@@ -60,9 +60,11 @@ def get_media(media_filename):
     google_drive_dir = current_app.config['GOOGLE_DRIVE_DIR']
     media_filepath = os.path.join(google_drive_dir, media_filename)
     if not os.path.exists(media_filepath):
-        return make_response(f"Media filename '{media_filename}' not found in Google Drive folder.", 400)
+        return make_response(f"Media filename '{media_filename}' not found in Google Drive folder.", 404)
+    else:
+        print(f"Attempting to serve media '{media_filename}' found in Google Drive folder.")
 
-    return send_from_directory(google_drive_dir, media_filepath)
+    return send_from_directory(google_drive_dir, media_filename)
 
 
 @bp.route('/gallery/selection', methods=('POST',))
