@@ -177,6 +177,8 @@ def check_media_folder(prev_folder_contents):
     # uses timed threads to recursively check for new items in the folder every 10 seconds
     folder_contents = []
     for root, dirs, files in os.walk("./static/gdrive"):
+        if root.endswith("recorded"):
+            continue
         for filename in files:
             folder_contents.append(filename)
             if not filename in prev_folder_contents:
@@ -192,6 +194,8 @@ def get_folder_contents():
     # simply returns list of contents of folder
     folder_contents = []
     for root, dirs, files in os.walk("./static/gdrive"):
+        if root.endswith("recorded"):
+            continue
         for filename in files:
             folder_contents.append(filename)
     return folder_contents
