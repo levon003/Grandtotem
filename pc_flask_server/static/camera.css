@@ -73,3 +73,7 @@ video#gumVideo {
 #download, #stop-icon {
   display: none;
 }
+
+#play:active {
+  opacity: 0.65;
+}

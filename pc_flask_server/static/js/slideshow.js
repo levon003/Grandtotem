@@ -1,5 +1,6 @@
 $( document ).ready(function() {
     window.setInterval(intervalFunction, 100);
+    console.log (window.innerHeight);
 });
 
 function intervalFunction() {

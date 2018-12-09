@@ -15,6 +15,8 @@
 var w = window.innerWidth;
 var h = window.innerHeight;
 
+console.log(w);
+
 
 /* globals MediaRecorder */
 
@@ -64,6 +66,7 @@ playButton.addEventListener('click', () => {
 
 const downloadButton = document.querySelector('button#play');
 downloadButton.addEventListener('click', () => {
+  recordButton.disabled = true;
   const blob = new Blob(recordedBlobs, {type: 'video/webm'});
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -77,7 +80,7 @@ downloadButton.addEventListener('click', () => {
     window.URL.revokeObjectURL(url);
   }, 100);
   uploadBlob(blob);
-
+  recordButton.disabled = false;
 });
 
 function handleSourceOpen(event) {
@@ -218,11 +221,12 @@ function getClickPosition(e) {
     var xPosition = e.clientX;
     var yPosition = e.clientY;
     console.log(xPosition, yPosition);
-    if (yPosition < 480/2 - 25) {
+    if (yPosition < 480/2 - 30) {
       console.log('right button clicked');
       // click the right button
       downloadButton.click();
-    } else if (yPosition > 480/2 + 25){
+      // downloadButton.disabled = true;
+    } else if (yPosition > 480/2 + 30){
       console.log('left button clicked');
       // click the left button
       recordButton.click();

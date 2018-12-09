@@ -19,7 +19,7 @@ if (video !== null) {
       window.setTimeout(function(){
       // Move to a new location or you can do something else
       window.location.href = "/slideshow";
-    }, (duration*1000+1000));
+    }, (duration*1000+3000));
     }
   },500);
 } else {
@@ -27,5 +27,5 @@ if (video !== null) {
     window.setTimeout(function(){
     // Move to a new location or you can do something else
     window.location.href = "/slideshow";
-  }, (5000));
+  }, (10000));
 }

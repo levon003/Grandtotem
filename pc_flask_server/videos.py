@@ -57,8 +57,8 @@ def video_upload():
         ts = time.time()
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d-%H-%M-%S')
         filename = st+'.webm'
-        filepath = app.root_path+'/media/'+filename
-        #file.save(filepath)
+        filepath = app.root_path+'/media/recorded/'+filename
+        file.save(filepath)
         send_mail( ["csci5127.grandtotem@gmail.com"], "Your grandparent has sent you a new message!", "Consider reply to the message.", [filepath] )
     return 'video saved'
 
