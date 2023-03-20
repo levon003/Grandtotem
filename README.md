@@ -40,4 +40,8 @@ BibTeX:
 }
 ```
 
+### Summary
+
+<img src="images/grandtotem_poster.png" alt="Poster describing the Grandtotem; see pdf for more details." style="width: auto" />
+
 
