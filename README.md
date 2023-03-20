@@ -1,6 +1,9 @@
 Grandtotem
 ===
 
+<img src="images/grandtotem_table_unlabeled.jpg" alt="The Grandtotem, sitting on a table." style="height: 20vw" />
+
+
 The Grandtotem is a medium-fidelity asynchronous communication device designed to support the relationship between grandparents and their student grandchildren studying internationally.  It functions as a focal point for family ritual, a photo frame, and a relationship media album.
 
 This repository contains the software implementation for the Grandtotem prototype.
