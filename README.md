@@ -3,7 +3,6 @@ Grandtotem
 
 <img src="images/grandtotem_table_unlabeled.jpg" alt="The Grandtotem, sitting on a table." style="height: 20vw" />
 
-
 The Grandtotem is a medium-fidelity asynchronous communication device designed to support the relationship between grandparents and their student grandchildren studying internationally.  It functions as a focal point for family ritual, a photo frame, and a relationship media album.
 
 This repository contains the software implementation for the Grandtotem prototype.
@@ -17,8 +16,8 @@ Demo video: https://youtu.be/sTyXbUlet0s
 Poster (CSCW'20): https://dl.acm.org/doi/10.1145/3406865.3418307
 
 ### Citing this work
-    
-Mark Butzer, Zachary Levonian, Yangyang Luo, Kathleen Watson, Ye Yuan, C. Estelle Smith, and Svetlana Yarosh. 2020. Grandtotem: Supporting International and Intergenerational Relationships. In ''Conference Companion Publication of the 2020 on Computer Supported Cooperative Work and Social Computing (CSCW '20 Companion)''. Association for Computing Machinery, New York, NY, USA, 227–231. DOI:https://dx.doi.org/10.1145/3406865.3418307
+
+>Mark Butzer, Zachary Levonian, Yangyang Luo, Kathleen Watson, Ye Yuan, C. Estelle Smith, and Svetlana Yarosh. 2020. Grandtotem: Supporting International and Intergenerational Relationships. In *Conference Companion Publication of the 2020 on Computer Supported Cooperative Work and Social Computing (CSCW '20 Companion)*. Association for Computing Machinery, New York, NY, USA, 227–231. DOI:https://dx.doi.org/10.1145/3406865.3418307
 
 BibTeX:
 ```
