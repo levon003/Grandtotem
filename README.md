@@ -16,11 +16,9 @@ Demo video: https://youtu.be/sTyXbUlet0s
 
 Poster (CSCW'20): https://dl.acm.org/doi/10.1145/3406865.3418307
 
-Preprint: https://www-users.cs.umn.edu/~levon003/files/levonian_grandtotem_preprint.pdf
-
 ### Citing this work
     
-Mark Butzer, Zachary Levonian, Yangyang Luo, Kathleen Watson, Ye Yuan, C. Estelle Smith, and Svetlana Yarosh. 2020. Grandtotem: Supporting International and Intergenerational Relationships. In Conference Companion Publication of the 2020 on Computer Supported Cooperative Work and Social Computing (CSCW '20 Companion). Association for Computing Machinery, New York, NY, USA, 227–231. DOI:https://dx.doi.org/10.1145/3406865.3418307
+Mark Butzer, Zachary Levonian, Yangyang Luo, Kathleen Watson, Ye Yuan, C. Estelle Smith, and Svetlana Yarosh. 2020. Grandtotem: Supporting International and Intergenerational Relationships. In ''Conference Companion Publication of the 2020 on Computer Supported Cooperative Work and Social Computing (CSCW '20 Companion)''. Association for Computing Machinery, New York, NY, USA, 227–231. DOI:https://dx.doi.org/10.1145/3406865.3418307
 
 BibTeX:
 ```
